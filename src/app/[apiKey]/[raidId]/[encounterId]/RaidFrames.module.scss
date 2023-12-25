@@ -1,0 +1,25 @@
+.frames {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.group {
+  display: flex;
+  gap: 5px;
+
+  width: calc(150 * 5 + 5 * 4) px;
+}
+
+.frame {
+  width: 150px;
+  height: 80px;
+
+  border: 1px solid #ffffff80;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

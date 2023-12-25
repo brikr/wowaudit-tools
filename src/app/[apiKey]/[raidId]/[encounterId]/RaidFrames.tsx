@@ -7,6 +7,7 @@ import {
   useRaid
 } from "@raid-group-maker/hooks/useRaid";
 import { useParams } from "next/navigation";
+import styles from "./RaidFrames.module.scss";
 
 function generateGroups(raid: Raid, encounterId: number): Character[][] {
   const charMap = new Map<number, Character>();
@@ -40,11 +41,14 @@ export default function RaidFrames() {
   const groups = generateGroups(data, Number(encounterId));
 
   return (
-    <div>
+    <div className={styles.frames}>
       {groups.map((group) => (
-        <div>
+        <div className={styles.group}>
           {group.map((char) => (
-            <div>{char.name}</div>
+            <div className={styles.frame}>
+              <span>{char.name}</span>
+              <span>{char.role}</span>
+            </div>
           ))}
         </div>
       ))}
