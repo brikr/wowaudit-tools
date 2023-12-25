@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +12,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-us">
-      <body>{children}</body>
+      <body>
+        <header>
+          <h1>Wowaudit Raid Group Maker</h1>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
