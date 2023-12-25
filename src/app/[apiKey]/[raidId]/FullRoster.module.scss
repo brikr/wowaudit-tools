@@ -1,0 +1,28 @@
+.encounters {
+  display: flex;
+
+  gap: 10px;
+}
+
+.encounter {
+  display: flex;
+  flex-direction: column;
+
+  width: 150px;
+
+  span {
+    padding: 5px;
+    border: 1px solid #ffffff80;
+  }
+}
+
+.encounterHeader {
+  text-align: center;
+}
+
+.sectionHeader {
+  margin-top: 5px;
+  background: #404244;
+
+  text-align: center;
+}

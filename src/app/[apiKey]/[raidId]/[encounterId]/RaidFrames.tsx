@@ -6,6 +6,8 @@ import {
   Raid,
   useRaid
 } from "@raid-group-maker/hooks/useRaid";
+import classColors from "@raid-group-maker/utils/classColor.module.scss";
+import { getCssClassForWowClass } from "@raid-group-maker/utils/classColor";
 import { useParams } from "next/navigation";
 import styles from "./RaidFrames.module.scss";
 
@@ -21,8 +23,14 @@ function generateGroups(raid: Raid, encounterId: number): Character[][] {
   const encounter = raid.encounters.find((enc) => enc.id == encounterId)!;
   for (const selection of encounter.selections) {
     if (selection.selected) {
+      const character: Character = {
+        ...charMap.get(selection.character_id)!,
+        class: selection.class,
+        role: selection.role
+      };
+
       groups[groupIdx] ??= [];
-      groups[groupIdx].push(charMap.get(selection.character_id)!);
+      groups[groupIdx].push(character);
       if (groups[groupIdx].length === 5) {
         groupIdx++;
       }
@@ -45,7 +53,11 @@ export default function RaidFrames() {
       {groups.map((group) => (
         <div className={styles.group}>
           {group.map((char) => (
-            <div className={styles.frame}>
+            <div
+              className={`${styles.frame} ${
+                classColors[getCssClassForWowClass(char.class)]
+              }`}
+            >
               <span>{char.name}</span>
               <span>{char.role}</span>
             </div>

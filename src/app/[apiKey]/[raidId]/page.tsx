@@ -1,3 +1,5 @@
+import FullRoster from "./FullRoster";
+
 interface Props {
   params: {
     raidId: string;
@@ -5,5 +7,5 @@ interface Props {
 }
 
 export default function Content({ params }: Props) {
-  return <div>{params.raidId}</div>;
+  return <FullRoster />;
 }

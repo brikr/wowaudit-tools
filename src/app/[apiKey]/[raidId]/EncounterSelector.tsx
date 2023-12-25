@@ -14,6 +14,15 @@ export default function EncounterSelector() {
 
   return (
     <div className={styles.container}>
+      <Link href={`/${apiKey}/${raidId}`}>
+        <div
+          className={`${styles.encounter} ${
+            !Boolean(encounterId) && styles.selected
+          }`}
+        >
+          All
+        </div>
+      </Link>
       {data.encounters
         .filter((encounter) => encounter.enabled)
         .map((encounter) => (
