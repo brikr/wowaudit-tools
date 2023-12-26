@@ -10,12 +10,18 @@ export default function CopyMrtButton() {
   const { raidId, encounterId } = useParams();
   const { data: raid, isLoading } = useRaid(Number(raidId));
 
-  if (isLoading || !raid) return null;
-
   const mrtString = useMemo(() => {
-    const groups = generateGroups(raid, Number(encounterId));
-    return groups.map((g) => g.map((char) => char.name).join("\n")).join("\n");
+    if (raid) {
+      const groups = generateGroups(raid, Number(encounterId));
+      return groups
+        .map((g) => g.map((char) => char.name).join("\n"))
+        .join("\n");
+    } else {
+      return "";
+    }
   }, [raid, encounterId]);
+
+  if (isLoading || !raid) return null;
 
   function handleCopyClick() {
     navigator.clipboard.writeText(mrtString);
