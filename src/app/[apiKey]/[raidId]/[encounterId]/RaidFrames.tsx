@@ -11,14 +11,21 @@ import { getCssClassForWowClass } from "@raid-group-maker/utils/classColor";
 import { useParams } from "next/navigation";
 import styles from "./RaidFrames.module.scss";
 import { generateGroups } from "@raid-group-maker/utils/generateRaidGroups";
+import { useMemo } from "react";
 
 export default function RaidFrames() {
   const { raidId, encounterId } = useParams();
   const { data: raid, isLoading } = useRaid(Number(raidId));
 
-  if (isLoading || !raid) return null;
+  const groups = useMemo(() => {
+    if (raid) {
+      return generateGroups(raid, Number(encounterId));
+    } else {
+      return [];
+    }
+  }, [raid, encounterId]);
 
-  const groups = generateGroups(raid, Number(encounterId));
+  if (isLoading || !raid) return null;
 
   return (
     <div className={styles.frames}>
