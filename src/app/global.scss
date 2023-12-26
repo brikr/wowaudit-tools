@@ -14,3 +14,18 @@ a {
     color: #536dfe;
   }
 }
+
+button {
+  background-color: #2196f3;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+
+  cursor: pointer;
+
+  &:active {
+    background: #536dfe;
+  }
+}

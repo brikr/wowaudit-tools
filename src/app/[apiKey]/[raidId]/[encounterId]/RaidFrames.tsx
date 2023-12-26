@@ -10,43 +10,15 @@ import classColors from "@raid-group-maker/utils/classColor.module.scss";
 import { getCssClassForWowClass } from "@raid-group-maker/utils/classColor";
 import { useParams } from "next/navigation";
 import styles from "./RaidFrames.module.scss";
-
-function generateGroups(raid: Raid, encounterId: number): Character[][] {
-  const charMap = new Map<number, Character>();
-  for (const signup of raid.signups) {
-    charMap.set(signup.character.id, signup.character);
-  }
-
-  const groups: Character[][] = [];
-  let groupIdx = 0; // idx of the highest group that isn't full
-
-  const encounter = raid.encounters.find((enc) => enc.id == encounterId)!;
-  for (const selection of encounter.selections) {
-    if (selection.selected) {
-      const character: Character = {
-        ...charMap.get(selection.character_id)!,
-        class: selection.class,
-        role: selection.role
-      };
-
-      groups[groupIdx] ??= [];
-      groups[groupIdx].push(character);
-      if (groups[groupIdx].length === 5) {
-        groupIdx++;
-      }
-    }
-  }
-
-  return groups;
-}
+import { generateGroups } from "@raid-group-maker/utils/generateRaidGroups";
 
 export default function RaidFrames() {
   const { raidId, encounterId } = useParams();
-  const { data, isLoading } = useRaid(Number(raidId));
+  const { data: raid, isLoading } = useRaid(Number(raidId));
 
-  if (isLoading || !data) return null;
+  if (isLoading || !raid) return null;
 
-  const groups = generateGroups(data, Number(encounterId));
+  const groups = generateGroups(raid, Number(encounterId));
 
   return (
     <div className={styles.frames}>
