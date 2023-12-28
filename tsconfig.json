@@ -19,7 +19,7 @@
       }
     ],
     "paths": {
-      "@raid-group-maker/*": ["./src/*"]
+      "@wowaudit-tools/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

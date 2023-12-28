@@ -1,7 +1,7 @@
 "use client";
 
-import { useRaid } from "@raid-group-maker/hooks/useRaid";
-import { generateGroups } from "@raid-group-maker/utils/generateRaidGroups";
+import { useRaid } from "@wowaudit-tools/hooks/useRaid";
+import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
 import { useParams } from "next/navigation";
 import styles from "./CopyMrtButton.module.scss";
 import { useMemo, useRef } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRaid } from "@raid-group-maker/hooks/useRaid";
+import { useRaid } from "@wowaudit-tools/hooks/useRaid";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import styles from "./EncounterSelector.module.scss";
@@ -26,7 +26,10 @@ export default function EncounterSelector() {
       {data.encounters
         .filter((encounter) => encounter.enabled)
         .map((encounter) => (
-          <Link href={`/${apiKey}/${raidId}/${encounter.id}`}>
+          <Link
+            href={`/${apiKey}/${raidId}/${encounter.id}`}
+            key={encounter.id}
+          >
             <div
               className={`${styles.encounter} ${
                 Number(encounterId) === encounter.id && styles.selected

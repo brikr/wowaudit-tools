@@ -5,12 +5,12 @@ import {
   Encounter,
   Raid,
   useRaid
-} from "@raid-group-maker/hooks/useRaid";
-import classColors from "@raid-group-maker/utils/classColor.module.scss";
-import { getCssClassForWowClass } from "@raid-group-maker/utils/classColor";
+} from "@wowaudit-tools/hooks/useRaid";
+import classColors from "@wowaudit-tools/utils/classColor.module.scss";
+import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
 import { useParams } from "next/navigation";
 import styles from "./RaidFrames.module.scss";
-import { generateGroups } from "@raid-group-maker/utils/generateRaidGroups";
+import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
 import { useMemo } from "react";
 
 export default function RaidFrames() {
@@ -29,13 +29,14 @@ export default function RaidFrames() {
 
   return (
     <div className={styles.frames}>
-      {groups.map((group) => (
-        <div className={styles.group}>
+      {groups.map((group, idx) => (
+        <div className={styles.group} key={idx}>
           {group.map((char) => (
             <div
               className={`${styles.frame} ${
                 classColors[getCssClassForWowClass(char.class)]
               }`}
+              key={char.id}
             >
               <span>{char.name}</span>
               <span>{char.role}</span>

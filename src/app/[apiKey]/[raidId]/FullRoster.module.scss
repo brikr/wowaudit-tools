@@ -1,7 +1,16 @@
-.encounters {
-  display: flex;
+.screenshotButton {
+  margin-bottom: 20px;
+}
 
+.encounterContainer {
+  background: inherit;
+}
+
+.encounters {
+  display: inline-flex;
   gap: 10px;
+
+  background: inherit;
 }
 
 .encounter {

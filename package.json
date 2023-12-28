@@ -1,5 +1,5 @@
 {
-  "name": "raid-group-maker",
+  "name": "wowaudit-tools",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "pretty": "prettier-eslint \"$(pwd)/**/*.{js,jsx,ts,tsx}\" --write"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
