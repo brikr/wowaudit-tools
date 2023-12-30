@@ -10,7 +10,7 @@ interface Props {
   encounterId: number;
 }
 
-export default async function CopyMrtButton({ raid, encounterId }: Props) {
+export default function CopyMrtButton({ raid, encounterId }: Props) {
   const mrtString = useMemo(() => {
     if (raid) {
       const groups = generateGroups(raid, encounterId);
