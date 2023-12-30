@@ -21,7 +21,7 @@ export function ScreenshotButton() {
 
   return (
     <button className={styles.screenshotButton} onClick={handleScreenshotClick}>
-      Screenshot
+      Copy Full Roster Screenshot
     </button>
   );
 }

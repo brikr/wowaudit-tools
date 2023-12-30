@@ -1,9 +1,9 @@
 import { Character, Raid } from "@wowaudit-tools/api/wowaudit";
 import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
 import classColors from "@wowaudit-tools/utils/classColor.module.scss";
+import Link from "next/link";
 import React from "react";
 import styles from "./FullRoster.module.scss";
-import { ScreenshotButton } from "./ScreenshotButton";
 
 function getCharactersByRole(
   raid: Raid,
@@ -34,34 +34,36 @@ export default async function FullRoster({ raid }: Props) {
   const encounters = raid.encounters.filter((encounter) => encounter.enabled);
 
   return (
-    <>
-      <ScreenshotButton />
-      <div className={styles.encounterContainer}>
-        <div className={styles.encounters} id="encounters">
-          {encounters.map((encounter) => (
-            <div className={styles.encounter} key={encounter.id}>
-              <span className={styles.encounterHeader}>{encounter.name}</span>
-              {["Tank", "Heal", "Melee", "Ranged"].map((role) => (
-                <React.Fragment key={role}>
-                  <span className={styles.sectionHeader}>{role}</span>
-                  {getCharactersByRole(raid, encounter.id, role).map(
-                    (character) => (
-                      <span
-                        className={
-                          classColors[getCssClassForWowClass(character.class)]
-                        }
-                        key={character.id}
-                      >
-                        {character.name}
-                      </span>
-                    )
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          ))}
-        </div>
+    <div className={styles.encounterContainer}>
+      <div className={styles.encounters} id="encounters">
+        {encounters.map((encounter) => (
+          <div className={styles.encounter} key={encounter.id}>
+            <Link
+              className={styles.encounterHeader}
+              href={`/raids/${raid.id}/${encounter.id}`}
+            >
+              <h3>{encounter.name}</h3>
+            </Link>
+            {["Tank", "Heal", "Melee", "Ranged"].map((role) => (
+              <React.Fragment key={role}>
+                <span className={styles.sectionHeader}>{role}</span>
+                {getCharactersByRole(raid, encounter.id, role).map(
+                  (character) => (
+                    <span
+                      className={
+                        classColors[getCssClassForWowClass(character.class)]
+                      }
+                      key={character.id}
+                    >
+                      {character.name}
+                    </span>
+                  )
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }

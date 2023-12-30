@@ -29,7 +29,7 @@ export default function CopyMrtButton({ raid, encounterId }: Props) {
   return (
     <>
       <button className={styles.copyButton} onClick={handleCopyClick}>
-        Copy MRT import string
+        Copy MRT Import String
       </button>
     </>
   );

@@ -10,7 +10,7 @@ interface Props {
   encounterId: number;
 }
 
-export default async function RaidFrames({ raid, encounterId }: Props) {
+export default function RaidFrames({ raid, encounterId }: Props) {
   const groups = useMemo(() => {
     if (raid) {
       return generateGroups(raid, encounterId);
