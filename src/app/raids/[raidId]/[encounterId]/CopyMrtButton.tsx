@@ -1,9 +1,9 @@
 "use client";
 
+import { Raid } from "@wowaudit-tools/api/wowaudit";
 import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
-import styles from "./CopyMrtButton.module.scss";
 import { useMemo } from "react";
-import { Raid, getRaid } from "@wowaudit-tools/api/wowaudit";
+import styles from "./CopyMrtButton.module.scss";
 
 interface Props {
   raid: Raid;

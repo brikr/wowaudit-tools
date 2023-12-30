@@ -1,9 +1,8 @@
-import classColors from "@wowaudit-tools/utils/classColor.module.scss";
+import { Character, Raid } from "@wowaudit-tools/api/wowaudit";
 import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
+import classColors from "@wowaudit-tools/utils/classColor.module.scss";
+import React from "react";
 import styles from "./FullRoster.module.scss";
-import React, { useRef } from "react";
-import html2canvas from "html2canvas";
-import { Raid, Character, getRaid } from "@wowaudit-tools/api/wowaudit";
 import { ScreenshotButton } from "./ScreenshotButton";
 
 function getCharactersByRole(

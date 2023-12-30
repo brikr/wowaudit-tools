@@ -1,6 +1,6 @@
+import { RaidWithoutDetails } from "@wowaudit-tools/api/wowaudit";
 import Link from "next/link";
 import styles from "./RaidSelector.module.scss";
-import { RaidWithoutDetails, getRaidList } from "@wowaudit-tools/api/wowaudit";
 
 interface Props {
   raids: RaidWithoutDetails[];

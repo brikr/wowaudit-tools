@@ -1,9 +1,9 @@
-import classColors from "@wowaudit-tools/utils/classColor.module.scss";
+import { Raid } from "@wowaudit-tools/api/wowaudit";
 import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
-import styles from "./RaidFrames.module.scss";
+import classColors from "@wowaudit-tools/utils/classColor.module.scss";
 import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
 import { useMemo } from "react";
-import { Raid } from "@wowaudit-tools/api/wowaudit";
+import styles from "./RaidFrames.module.scss";
 
 interface Props {
   raid: Raid;

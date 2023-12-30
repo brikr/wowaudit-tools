@@ -1,6 +1,6 @@
+import { Raid } from "@wowaudit-tools/api/wowaudit";
 import Link from "next/link";
 import styles from "./EncounterSelector.module.scss";
-import { Raid } from "@wowaudit-tools/api/wowaudit";
 
 interface Props {
   raid: Raid;

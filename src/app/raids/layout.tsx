@@ -1,6 +1,6 @@
+import { getRaidList } from "@wowaudit-tools/api/wowaudit";
 import React from "react";
 import RaidSelector from "./RaidSelector";
-import { getRaidList } from "@wowaudit-tools/api/wowaudit";
 
 interface Props {
   params: {
