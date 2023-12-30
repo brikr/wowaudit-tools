@@ -1,20 +1,21 @@
-"use client";
-
-import { useRaid } from "@wowaudit-tools/hooks/useRaid";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import styles from "./EncounterSelector.module.scss";
+import { Raid } from "@wowaudit-tools/api/wowaudit";
 
-export default function EncounterSelector() {
-  const { apiKey, raidId, encounterId } = useParams();
+interface Props {
+  raid: Raid;
+  params: {
+    encounterId?: string;
+  };
+}
 
-  const { data, isLoading } = useRaid(Number(raidId));
-
-  if (isLoading || !data) return null;
-
+export default async function EncounterSelector({
+  raid,
+  params: { encounterId }
+}: Props) {
   return (
     <div className={styles.container}>
-      <Link href={`/${apiKey}/${raidId}`}>
+      <Link href={`/raids/${raid.id}`}>
         <div
           className={`${styles.encounter} ${
             !Boolean(encounterId) && styles.selected
@@ -23,13 +24,10 @@ export default function EncounterSelector() {
           All
         </div>
       </Link>
-      {data.encounters
+      {raid.encounters
         .filter((encounter) => encounter.enabled)
         .map((encounter) => (
-          <Link
-            href={`/${apiKey}/${raidId}/${encounter.id}`}
-            key={encounter.id}
-          >
+          <Link href={`/raids/${raid.id}/${encounter.id}`} key={encounter.id}>
             <div
               className={`${styles.encounter} ${
                 Number(encounterId) === encounter.id && styles.selected

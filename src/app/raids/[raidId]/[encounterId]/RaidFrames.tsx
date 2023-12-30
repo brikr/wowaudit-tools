@@ -1,31 +1,23 @@
-"use client";
-
-import {
-  Character,
-  Encounter,
-  Raid,
-  useRaid
-} from "@wowaudit-tools/hooks/useRaid";
 import classColors from "@wowaudit-tools/utils/classColor.module.scss";
 import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
-import { useParams } from "next/navigation";
 import styles from "./RaidFrames.module.scss";
 import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
 import { useMemo } from "react";
+import { Raid } from "@wowaudit-tools/api/wowaudit";
 
-export default function RaidFrames() {
-  const { raidId, encounterId } = useParams();
-  const { data: raid, isLoading } = useRaid(Number(raidId));
+interface Props {
+  raid: Raid;
+  encounterId: number;
+}
 
+export default async function RaidFrames({ raid, encounterId }: Props) {
   const groups = useMemo(() => {
     if (raid) {
-      return generateGroups(raid, Number(encounterId));
+      return generateGroups(raid, encounterId);
     } else {
       return [];
     }
   }, [raid, encounterId]);
-
-  if (isLoading || !raid) return null;
 
   return (
     <div className={styles.frames}>

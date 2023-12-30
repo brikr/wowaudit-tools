@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./global.scss";
 
 export const metadata: Metadata = {
-  title: "Wowaudit Roster Viewer"
+  title: "Wowaudit Roster"
 };
 
 export default function RootLayout({

@@ -1,17 +1,10 @@
-"use client";
-
-import {
-  Character,
-  Encounter,
-  Raid,
-  useRaid
-} from "@wowaudit-tools/hooks/useRaid";
 import classColors from "@wowaudit-tools/utils/classColor.module.scss";
 import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
-import { useParams } from "next/navigation";
 import styles from "./FullRoster.module.scss";
 import React, { useRef } from "react";
 import html2canvas from "html2canvas";
+import { Raid, Character, getRaid } from "@wowaudit-tools/api/wowaudit";
+import { ScreenshotButton } from "./ScreenshotButton";
 
 function getCharactersByRole(
   raid: Raid,
@@ -34,38 +27,18 @@ function getCharactersByRole(
     .sort((a, b) => a.class.localeCompare(b.class));
 }
 
-export default function FullRoster() {
-  const { raidId } = useParams();
-  const { data: raid, isLoading } = useRaid(Number(raidId));
-  const encountersRef = useRef<HTMLDivElement>(null);
+interface Props {
+  raid: Raid;
+}
 
-  if (isLoading || !raid) return null;
-
-  async function handleScreenshotClick() {
-    if (encountersRef.current === null) return;
-    const canvas = await html2canvas(encountersRef.current);
-    canvas.toBlob((blob) => {
-      if (blob === null) return;
-      navigator.clipboard.write([
-        new ClipboardItem({
-          [blob.type]: blob
-        })
-      ]);
-    });
-  }
-
+export default async function FullRoster({ raid }: Props) {
   const encounters = raid.encounters.filter((encounter) => encounter.enabled);
 
   return (
     <>
-      <button
-        className={styles.screenshotButton}
-        onClick={handleScreenshotClick}
-      >
-        Screenshot
-      </button>
+      <ScreenshotButton />
       <div className={styles.encounterContainer}>
-        <div className={styles.encounters} ref={encountersRef}>
+        <div className={styles.encounters} id="encounters">
           {encounters.map((encounter) => (
             <div className={styles.encounter} key={encounter.id}>
               <span className={styles.encounterHeader}>{encounter.name}</span>

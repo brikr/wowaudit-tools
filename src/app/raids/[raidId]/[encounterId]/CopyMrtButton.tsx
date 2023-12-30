@@ -1,18 +1,19 @@
 "use client";
 
-import { useRaid } from "@wowaudit-tools/hooks/useRaid";
 import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
-import { useParams } from "next/navigation";
 import styles from "./CopyMrtButton.module.scss";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
+import { Raid, getRaid } from "@wowaudit-tools/api/wowaudit";
 
-export default function CopyMrtButton() {
-  const { raidId, encounterId } = useParams();
-  const { data: raid, isLoading } = useRaid(Number(raidId));
+interface Props {
+  raid: Raid;
+  encounterId: number;
+}
 
+export default async function CopyMrtButton({ raid, encounterId }: Props) {
   const mrtString = useMemo(() => {
     if (raid) {
-      const groups = generateGroups(raid, Number(encounterId));
+      const groups = generateGroups(raid, encounterId);
       return groups
         .map((g) => g.map((char) => char.name).join("\n"))
         .join("\n");
@@ -20,8 +21,6 @@ export default function CopyMrtButton() {
       return "";
     }
   }, [raid, encounterId]);
-
-  if (isLoading || !raid) return null;
 
   function handleCopyClick() {
     navigator.clipboard.writeText(mrtString);

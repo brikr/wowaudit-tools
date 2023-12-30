@@ -1,25 +1,23 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import React, { FormEvent } from "react";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export default function Home() {
-  const router = useRouter();
+  if (cookies().has("waKey")) {
+    redirect("/raids");
+  }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const apiKey = formData.get("apiKey") as string | null;
-    if (apiKey) {
-      router.push(apiKey);
+  async function handleAuth(data: FormData) {
+    "use server";
+    const waKey = data.get("waKey")?.toString();
+    if (waKey) {
+      cookies().set("waKey", waKey, { secure: true });
     }
   }
 
   return (
     <main>
-      <form onSubmit={handleSubmit}>
-        <input name="apiKey" type="text" placeholder="API Key" />
+      <form action={handleAuth}>
+        <input name="waKey" type="text" placeholder="API Key" />
         <button>Submit</button>
       </form>
     </main>

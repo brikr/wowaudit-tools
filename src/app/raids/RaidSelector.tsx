@@ -1,20 +1,22 @@
-"use client";
-
-import { useRaidList } from "@wowaudit-tools/hooks/useRaidList";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import styles from "./RaidSelector.module.scss";
+import { RaidWithoutDetails, getRaidList } from "@wowaudit-tools/api/wowaudit";
 
-export default function RaidSelector() {
-  const { data, isLoading } = useRaidList();
-  const { apiKey, raidId } = useParams();
+interface Props {
+  raids: RaidWithoutDetails[];
+  params: {
+    raidId?: string;
+  };
+}
 
-  if (isLoading || !data) return null;
-
+export default async function RaidSelector({
+  raids,
+  params: { raidId }
+}: Props) {
   return (
     <div className={styles.container}>
-      {data.raids.slice(0, 4).map((raid) => (
-        <Link key={raid.id} href={`/${apiKey}/${raid.id}`}>
+      {raids.slice(0, 4).map((raid) => (
+        <Link key={raid.id} href={`/raids/${raid.id}`}>
           <div
             className={`${styles.raid} ${
               Number(raidId) == raid.id && styles.selected

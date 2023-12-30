@@ -1,4 +1,4 @@
-import { Raid, Character } from "@wowaudit-tools/hooks/useRaid";
+import { Raid, Character } from "@wowaudit-tools/api/wowaudit";
 
 export function generateGroups(raid: Raid, encounterId: number): Character[][] {
   const charMap = new Map<number, Character>();
