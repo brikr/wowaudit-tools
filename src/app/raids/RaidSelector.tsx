@@ -32,7 +32,7 @@ export default function RaidSelector({ raids }: Props) {
       {filteredRaids.map((raid) => (
         <Link key={raid.id} href={`/raids/${raid.id}`}>
           <div className={styles.raid}>
-            <span>{raid.date}</span>
+            <span className={styles.date}>{raid.date}</span>
             <span className={styles.title}>
               {raid.difficulty} {raid.instance}
             </span>

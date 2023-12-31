@@ -21,10 +21,15 @@
 }
 
 .encounterHeader {
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 
   h3 {
-    margin: 0 0 5px;
+    margin: 0;
   }
 }
 

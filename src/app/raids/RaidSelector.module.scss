@@ -1,9 +1,8 @@
 .container {
+  width: 600px;
+
   display: flex;
-  flex-wrap: wrap;
-
-  margin-bottom: 20px;
-
+  flex-direction: column;
   gap: 10px;
 
   a {
@@ -14,19 +13,18 @@
 
 .raid {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 
-  width: 200px;
-  height: 100px;
-  padding: 5px;
+  padding: 20px 10px;
 
-  border: 2px solid #ffffff80;
+  background: #ffffff18;
+  border-radius: 5px;
 
-  .title {
-    flex-grow: 1;
+  &:hover {
+    background: #ffffff30;
   }
 
-  &.selected {
-    border-color: #2196f3;
+  .date {
+    width: 150px;
   }
 }

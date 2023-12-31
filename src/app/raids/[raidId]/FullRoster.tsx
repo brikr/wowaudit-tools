@@ -38,12 +38,13 @@ export default async function FullRoster({ raid }: Props) {
       <div className={styles.encounters} id="encounters">
         {encounters.map((encounter) => (
           <div className={styles.encounter} key={encounter.id}>
-            <Link
-              className={styles.encounterHeader}
-              href={`/raids/${raid.id}/${encounter.id}`}
-            >
-              <h3>{encounter.name}</h3>
-            </Link>
+            <div className={styles.encounterHeader}>
+              <h3>
+                <Link href={`/raids/${raid.id}/${encounter.id}`}>
+                  {encounter.name}
+                </Link>
+              </h3>
+            </div>
             {["Tank", "Heal", "Melee", "Ranged"].map((role) => (
               <React.Fragment key={role}>
                 <span className={styles.sectionHeader}>{role}</span>
