@@ -1,31 +1,53 @@
+@import "./variables.scss";
+
 body {
   padding: 20px 40px;
 
   font-family: Helvetica, Arial, sans-serif;
 
-  background-color: #202224;
-  color: white;
+  background-color: $grey-900;
+  color: $white-85;
 }
 
 a {
-  color: #2196f3;
+  color: $primary-500;
+
+  &:hover {
+    color: $primary-400;
+  }
 
   &:visited {
-    color: #2196f3;
+    color: $primary-600;
   }
 }
 
 button {
-  background-color: #2196f3;
-  color: white;
   padding: 10px;
+  min-width: 100px;
+
   border-radius: 5px;
-  font-weight: bold;
   border: none;
+
+  background: $primary-500;
+  color: $white-85;
+
+  font-weight: bold;
 
   cursor: pointer;
 
-  &:active {
-    background: #536dfe;
+  &:hover {
+    background: $primary-400;
   }
+
+  &:active {
+    background: $primary-600;
+  }
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+
+  border-radius: 5px;
+  border: none;
 }

@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import styles from "./page.module.scss";
 
 // where to send folks after they are authed
 const REF = "/raids";
@@ -20,8 +21,8 @@ export default function Login() {
 
   return (
     <main>
-      <form action={handleAuth}>
-        <input name="waKey" type="text" placeholder="API Key" />
+      <form className={styles.form} action={handleAuth}>
+        <input name="waKey" type="password" placeholder="API Key" />
         <button>Submit</button>
       </form>
     </main>

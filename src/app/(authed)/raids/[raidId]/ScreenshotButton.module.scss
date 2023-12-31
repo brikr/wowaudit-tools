@@ -1,3 +1,12 @@
+@import "/src/app/variables.scss";
+
 .screenshotButton {
   margin-bottom: 20px;
+}
+
+.screenshot {
+  a {
+    color: $white-85;
+    text-decoration: none;
+  }
 }

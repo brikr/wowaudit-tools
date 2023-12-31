@@ -5,10 +5,13 @@ import styles from "./ScreenshotButton.module.scss";
 
 export function ScreenshotButton() {
   async function handleScreenshotClick() {
-    "use client";
     const encounters = document.getElementById("encounters");
     if (encounters === null) return;
-    const canvas = await html2canvas(encounters);
+    encounters.classList.add(styles.screenshot);
+    const canvas = await html2canvas(encounters, {
+      backgroundColor: null
+    });
+    encounters.classList.remove(styles.screenshot);
     canvas.toBlob((blob) => {
       if (blob === null) return;
       navigator.clipboard.write([

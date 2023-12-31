@@ -1,12 +1,8 @@
-.encounterContainer {
-  background: inherit;
-}
+@import "/src/app/variables.scss";
 
 .encounters {
   display: inline-flex;
   gap: 10px;
-
-  background: inherit;
 }
 
 .encounter {
@@ -35,7 +31,7 @@
 
 .sectionHeader {
   margin-top: 5px;
-  background: #404244;
+  background: $grey-800;
 
   text-align: center;
 }
