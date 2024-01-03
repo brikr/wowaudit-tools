@@ -1,4 +1,5 @@
 import { getRaid } from "@wowaudit-tools/api/wowaudit";
+import { generateGroups } from "@wowaudit-tools/utils/raidGroups";
 import Link from "next/link";
 import CopyMrtButton from "./CopyMrtButton";
 import RaidFrames from "./RaidFrames";
@@ -19,6 +20,8 @@ export default async function Encounter({
     (enc) => enc.id === Number(encounterId)
   )!.name;
 
+  const groups = await generateGroups(raid, Number(encounterId));
+
   return (
     <div>
       <Link href={`/raids/${raid.id}`}>
@@ -27,8 +30,8 @@ export default async function Encounter({
       <h2>
         {raid.date}: {raid.difficulty} {encounterName}
       </h2>
-      <CopyMrtButton raid={raid} encounterId={Number(encounterId)} />
-      <RaidFrames raid={raid} encounterId={Number(encounterId)} />
+      <CopyMrtButton groups={groups} />
+      <RaidFrames groups={groups} />
     </div>
   );
 }

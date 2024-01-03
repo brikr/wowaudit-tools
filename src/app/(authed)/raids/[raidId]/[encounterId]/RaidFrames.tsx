@@ -1,24 +1,13 @@
-import { Raid } from "@wowaudit-tools/api/wowaudit";
 import { getCssClassForWowClass } from "@wowaudit-tools/utils/classColor";
 import classColors from "@wowaudit-tools/utils/classColor.module.scss";
-import { generateGroups } from "@wowaudit-tools/utils/generateRaidGroups";
-import { useMemo } from "react";
+import { Groups } from "@wowaudit-tools/utils/raidGroups";
 import styles from "./RaidFrames.module.scss";
 
 interface Props {
-  raid: Raid;
-  encounterId: number;
+  groups: Groups;
 }
 
-export default function RaidFrames({ raid, encounterId }: Props) {
-  const groups = useMemo(() => {
-    if (raid) {
-      return generateGroups(raid, encounterId);
-    } else {
-      return [];
-    }
-  }, [raid, encounterId]);
-
+export default function RaidFrames({ groups }: Props) {
   return (
     <div className={styles.frames}>
       {groups.map((group, idx) => (
