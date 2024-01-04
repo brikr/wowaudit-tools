@@ -1,7 +1,4 @@
-interface ClassSpec {
-  class: string;
-  spec: string;
-}
+import { ClassSpec, stringToClassSpec } from "@wowaudit-tools/utils/classSpec";
 
 interface ApiWindfuryResponse {
   // not sure difference between this and sorted_data_keys, but the chart uses this one
@@ -20,14 +17,5 @@ export async function getWindfuryPriority(): Promise<ClassSpec[]> {
   });
   const json = (await response.json()) as ApiWindfuryResponse;
 
-  const priority: ClassSpec[] = [];
-
-  for (const classSpecStr of json.sorted_data_keys_2) {
-    const firstSpaceIdx = classSpecStr.indexOf(" ");
-    const spec = classSpecStr.substring(0, firstSpaceIdx);
-    const klass = classSpecStr.substring(firstSpaceIdx + 1);
-    priority.push({ class: klass, spec });
-  }
-
-  return priority;
+  return json.sorted_data_keys_2.map(stringToClassSpec);
 }

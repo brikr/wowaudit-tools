@@ -1,10 +1,12 @@
 import { getWindfuryPriority } from "@wowaudit-tools/api/bloodmallet";
+import { getSpecPriorityForEncounter } from "@wowaudit-tools/api/warcraftlogs";
 import { Character, Raid } from "@wowaudit-tools/api/wowaudit";
+import { ClassSpec } from "./classSpec";
 
 export type Groups = Character[][];
 interface GroupTransformer {
   encounter?: string;
-  fn: (groups: Groups) => Promise<Groups>;
+  fn: (groups: Groups, encounter: string) => Promise<Groups>;
 }
 
 function createInitialGroups(raid: Raid, encounterId: number): Groups {
@@ -34,6 +36,19 @@ function createInitialGroups(raid: Raid, encounterId: number): Groups {
   }
 
   return groups;
+}
+
+// swaps two players in-place
+function swap(
+  groups: Groups,
+  firstGroup: number,
+  firstSlot: number,
+  secondGroup: number,
+  secondSlot: number
+) {
+  const temp = groups[firstGroup][firstSlot];
+  groups[firstGroup][firstSlot] = groups[secondGroup][secondSlot];
+  groups[secondGroup][secondSlot] = temp;
 }
 
 // transformers are ran in order
@@ -77,11 +92,95 @@ const TRANSFORMERS: GroupTransformer[] = [
     }
   },
   {
-    // windfury
-    fn: async (groups: Groups) => {
-      const windfuryPriority = await getWindfuryPriority();
-      console.log(windfuryPriority);
-      // TODO
+    // windfury group 1
+    // TODO: doesn't account for double enhance
+    // TODO: doesn't properly separate tans from dps in logic
+    fn: async (groups: Groups, encounter: string) => {
+      // find the enhance shaman and put them in group 1 slot 1
+      let enhanceFound = false;
+      groupLoop: for (let groupIdx = 0; groupIdx < groups.length; groupIdx++) {
+        for (let slotIdx = 0; slotIdx < groups[groupIdx].length; slotIdx++) {
+          const char = groups[groupIdx][slotIdx];
+          if (char.class === "Shaman" && char.role === "Melee") {
+            enhanceFound = true;
+            swap(groups, groupIdx, slotIdx, 0, 0);
+            break groupLoop;
+          }
+        }
+      }
+      if (!enhanceFound) {
+        // no windfury
+        return groups;
+      }
+
+      function isSpecPlayedOnFight(
+        spec: ClassSpec,
+        specPrio: ClassSpec[]
+      ): boolean {
+        // tanks are always played
+        if (
+          [
+            "Protection",
+            "Guardian",
+            "Brewmaster",
+            "Blood",
+            "Vengeance"
+          ].includes(spec.spec)
+        ) {
+          return true;
+        }
+
+        // find the first class match
+        const classMatch = specPrio.find((cs) => cs.class === spec.class);
+
+        // if the spec matches, it's the best spec on the fight for this class
+        return classMatch?.spec === spec.spec;
+      }
+
+      // the next slot we'll put a windfurier in
+      let nextWindfurySlotIdx = 1;
+
+      const [windfuryPriority, specPriority] = await Promise.all([
+        getWindfuryPriority(),
+        getSpecPriorityForEncounter(encounter)
+      ]);
+
+      for (const spec of windfuryPriority) {
+        if (spec.spec === "Enhancement") {
+          // don't move the shaman
+          continue;
+        }
+        if (isSpecPlayedOnFight(spec, specPriority)) {
+          // find any players of this class and put them in windfury group
+
+          for (let groupIdx = 0; groupIdx < groups.length; groupIdx++) {
+            // don't search the existing windfuriers for more candidates
+            const initialSlotIdx = groupIdx === 0 ? nextWindfurySlotIdx : 0;
+            for (
+              let slotIdx = initialSlotIdx;
+              slotIdx < groups[groupIdx].length;
+              slotIdx++
+            ) {
+              const char = groups[groupIdx][slotIdx];
+              if (
+                (char.role === "Melee" || char.role === "Tank") &&
+                char.class === spec.class
+              ) {
+                // swap it into wf group
+                swap(groups, 0, nextWindfurySlotIdx, groupIdx, slotIdx);
+                nextWindfurySlotIdx++;
+
+                if (nextWindfurySlotIdx === 5) {
+                  // group is full!
+                  return groups;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // technically shouldn't get here
       return groups;
     }
   },
@@ -114,7 +213,7 @@ export async function generateGroups(
       continue;
     }
 
-    groups = await transformer.fn(groups);
+    groups = await transformer.fn(groups, encounterName);
   }
 
   return groups;
